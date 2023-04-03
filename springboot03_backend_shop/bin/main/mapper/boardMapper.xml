@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <!-- Dao 메소드명과 id는 같게 하는게 좋음 -->
+<mapper namespace="com.example.shop.board.dao.BoardDAO">
+    <select id = "count" resultType = "int">
+       SELECT count(*) FROM board
+    </select>
+
+<!--    <select id = "list" parameterType="board.dto.PageDTO" resultType="board.dto.BoardDTO">
+       <![CDATA[
+       SELECT b.*
+	   FROM(SELECT rownum AS rm, a.*
+	   		FROM(SELECT * FROM board
+	   			ORDER BY ref DESC, re_step ASC)a)b
+	   WHERE b.rm >= #{startRow} AND b.rm <= #{endRow}
+	   ]]>
+    </select>-->	
+    
+   <select id="list" parameterType="PageDTO" resultType="BoardDTO">
+      <![CDATA[
+        SELECT b.*
+            FROM(SELECT rownum AS rm, a.*
+               FROM(SELECT b.*   FROM board b
+                    ORDER BY ref DESC, re_step ASC)a)b
+            WHERE b.rm>=#{startRow} AND b.rm<=#{endRow}
+      ]]>
+   </select>																			
+       
+   <insert id = "save" parameterType="BoardDTO">
+      INSERT INTO board(num, subject, reg_date, readcount, ref, re_step, re_level, content, ip, upload, memberEmail)
+      VALUES(board_num_seq.nextval, #{subject}, sysdate, 0,
+       <choose>
+          <when test = "ref==0">
+             board_num_seq.nextval,
+          </when>
+          <otherwise>
+             #{ref},
+          </otherwise>
+       </choose>
+       #{re_step}, #{re_level}, #{content, jdbcType=VARCHAR}, #{ip}, #{upload, jdbcType=VARCHAR},#{memberEmail, jdbcType=VARCHAR}
+        )
+    </insert>
+    
+<!--    <update id = "readCount" parameterType = "int">
+    	UPDATE board
+    	SET readCount = readCount + 1
+    	WHERE num=#{num}
+    </update>
+    
+    <resultMap type="board.dto.BoardDTO" id="contentSelect" autoMapping="true">
+      <association property="membersDTO" javaType="members.dto.MembersDTO" >
+        <result column="memberName" property="memberName" />
+      </association>    
+    </resultMap>
+    
+    <select id = "content" parameterType = "int" resultMap = "contentSelect">
+		SELECT b.*, m.memberName
+		FROM board b, members m
+		WHERE b.memberEmail = m.memberEmail
+		  AND m.memberEmail=(SELECT memberEmail FROM board
+							  WHERE num=#{num})   
+		  AND num=#{num}	
+    </select>
+    
+    <update id="reStepCount" parameterType = "board.dto.BoardDTO">
+    	UPDATE board
+    	SET re_step = re_step + 1
+    	WHERE ref=#{ref} AND re_step > #{re_step}  같은 그룹이고 re_step 값이 클 때 
+    </update>
+    
+    <update id = "update" parameterType = "board.dto.BoardDTO">
+    	UPDATE board
+    	SET subject=#{subject}, content=#{content}
+    	<if test="upload!=null">
+    		,upload=#{upload}
+    	</if>
+    	WHERE num=#{num}
+    </update>
+    
+    <select id = "getFile" parameterType = "int" resultType = "string">
+    	SELECT upload
+    	FROM board
+    	WHERE num=#{num}
+    </select>
+    
+    <delete id = "delete" parameterType = "int">
+    	DELETE FROM board
+    	WHERE num=#{num}
+    </delete>-->
+    
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
