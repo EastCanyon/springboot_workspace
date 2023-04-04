@@ -44,12 +44,13 @@
         )
     </insert>
     
-<!--    <update id = "readCount" parameterType = "int">
+    <update id = "readCount" parameterType = "int">
     	UPDATE board
     	SET readCount = readCount + 1
     	WHERE num=#{num}
     </update>
     
+ <!--   
     <resultMap type="board.dto.BoardDTO" id="contentSelect" autoMapping="true">
       <association property="membersDTO" javaType="members.dto.MembersDTO" >
         <result column="memberName" property="memberName" />
@@ -64,14 +65,23 @@
 							  WHERE num=#{num})   
 		  AND num=#{num}	
     </select>
-    
-    <update id="reStepCount" parameterType = "board.dto.BoardDTO">
+-->
+
+    <select id = "content" parameterType = "int" resultType = "BoardDTO">
+		SELECT b.*
+		FROM board b
+		WHERE num=#{num}
+    </select>
+
+
+
+    <update id="reStepCount" parameterType = "BoardDTO">
     	UPDATE board
     	SET re_step = re_step + 1
-    	WHERE ref=#{ref} AND re_step > #{re_step}  같은 그룹이고 re_step 값이 클 때 
+    	WHERE ref=#{ref} AND re_step > #{re_step}
     </update>
     
-    <update id = "update" parameterType = "board.dto.BoardDTO">
+    <update id = "update" parameterType = "BoardDTO">
     	UPDATE board
     	SET subject=#{subject}, content=#{content}
     	<if test="upload!=null">
@@ -86,10 +96,12 @@
     	WHERE num=#{num}
     </select>
     
+    
+   
     <delete id = "delete" parameterType = "int">
     	DELETE FROM board
     	WHERE num=#{num}
-    </delete>-->
+    </delete>
     
 </mapper>
  
