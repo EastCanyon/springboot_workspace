@@ -3,31 +3,31 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace = "members">
+<mapper namespace = "com.example.shop.members.dao.MembersDAO">
 	
 	<!-- 회원가입 -->
-	<insert id = "insertMember" parameterType = "members.dto.MembersDTO">
+	<insert id = "insertMember" parameterType = "MembersDTO">
 		<![CDATA[
 			INSERT INTO members(memberEmail, memberPass, memberName, memberPhone, memberType)
 			VALUES (#{memberEmail}, #{memberPass}, #{memberName}, #{memberPhone}, #{memberType})
 		]]>
 	</insert>
 	
-	<select id = "selectByEmail" parameterType = "string" resultType="members.dto.MembersDTO">
+	<select id = "selectByEmail" parameterType = "string" resultType="MembersDTO">
 		SELECT * FROM members
 		WHERE memberEmail = #{memberEmail}
 	</select>
 	
 	
 	<!-- 회원 정보 수정 -->
-	<update id ="updateMember" parameterType ="members.dto.MembersDTO">
+	<update id ="updateMember" parameterType ="MembersDTO">
 		UPDATE members
 		SET  memberPass=#{memberPass}, memberName=#{memberName}, memberPhone=#{memberPhone}
 		WHERE memberEmail=#{memberEmail}	
 	</update>
 	
 	<!-- 비밀번호 변경 -->
-	<update id="updateByPass" parameterType="members.dto.MembersDTO">
+	<update id="updateByPass" parameterType="MembersDTO">
 		UPDATE members SET memberPass=#{memberPass}
 		WHERE memberEmail=#{memberEmail}
 	</update>

@@ -89,7 +89,7 @@ public class BoardController {
 	    //System.out.println(dto.getMembersDTO().getMemberName());
 
 	    // 파일 첨부가 있으면...
-	    if (!file.isEmpty()) {
+	    if (file!= null && !file.isEmpty()) {
 	       UUID random = FileUpload.saveCopyFile(file, filePath);
 	       dto.setUpload(random + "_" + file.getOriginalFilename());
 	    }
@@ -120,7 +120,7 @@ public class BoardController {
 	 @PutMapping("/board/update")
 	 public void updateExecute(BoardDTO dto, HttpServletRequest request) throws IllegalStateException, IOException{
 		 MultipartFile file = dto.getFilename();
-		 if (!file.isEmpty()) {
+		 if (file!=null && !file.isEmpty()) {
 		       UUID random = FileUpload.saveCopyFile(file, filePath);
 		       dto.setUpload(random + "_" + file.getOriginalFilename());
 		       //c://downdown\\temp 경로에 첨부파일 저장
