@@ -47,6 +47,12 @@ public class SecurityConfig {
 	      
 	      //인증사용, security Filter에 등록 (@CrossOrigin 사용하지x)
 	      http.apply(new MyCustomerFilter());
+	      
+	      //요청에 의한 인가(권한)검사 시작
+	      http.authorizeHttpRequests()
+	      .antMatchers("/", "/images/**", "/login", "/member/signup",
+	    		  "/board/list/**").permitAll() //로그인 없이 접근 허용함
+	      .anyRequest().authenticated(); //그외 모든 요청에 대해서 인증(로그인)이 되어야 허용함
 
 	      return http.build();
 	   }//filterChain
