@@ -39,7 +39,7 @@ public class MembersServiceImp implements MembersService {
 	}
 
 	@Override
-	public MembersDTO updateMembersProcess(String memberEmail) {
+	public MembersDTO updateMemberProcess(String memberEmail) {
 		
 		return membersDao.selectByEmail(memberEmail);
 	}

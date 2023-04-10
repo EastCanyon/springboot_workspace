@@ -1,10 +1,13 @@
 package com.example.shop.members.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +42,27 @@ public class MembersController {
 		AuthInfo authInfo = membersService.addMemberProcess(membersDTO);
 		return null;
 	}//addMember
+	
+	//회원정보 가져오기
+	@GetMapping("/member/editinfo/{memberEmail}")
+	public MembersDTO getMember(@PathVariable("memberEmail") String memberEmail) {
+		return membersService.updateMemberProcess(memberEmail);
+	}
+	
+	@PostMapping("/member/update")
+	public void updateMember(@RequestBody MembersDTO membersDTO) {
+		membersDTO.setMemberPass(encodePassword.encode(membersDTO.getMemberPass()));
+		membersService.updateMemberProcess(membersDTO);
+	}
 
 }//end class
+
+
+
+
+
+
+
+
+
 
